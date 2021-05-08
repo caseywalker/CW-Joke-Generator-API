@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from 'reactstrap';
 import getJoke from '../helpers/data/jokeData';
 import './App.scss';
 
 function App() {
   const [singleJoke, setSingleJoke] = useState({});
   const [showPunchline, setShowPunchline] = useState(false);
-  const [userInput, setUserInput] = useState({
-    artist: '',
-    title: ''
-  });
 
   const getSingleJoke = () => {
     getJoke().then((joke) => {
@@ -25,42 +22,16 @@ function App() {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.warn(userInput);
-    setUserInput({
-      artist: '',
-      title: ''
-    });
-  };
-
-  const handleUserInput = (e) => {
-    setUserInput({
-      ...userInput,
-      [e.target.id]: e.target.value
-    });
-  };
-
   useEffect(() => {
     getSingleJoke();
   }, []);
 
   return (
     <div className='App'>
-      <h1>{singleJoke.setup}</h1>
+      <h1>Joke Generator!</h1>
+      <h2>{singleJoke.setup}</h2>
       <h3>{showPunchline ? singleJoke.punchline : ''}</h3>
-      <button onClick={handleClick}>{showPunchline ? 'Get Another Joke' : 'Get Punchline'}</button>
-      <p>{userInput.artist}</p>
-      <p>{userInput.title}</p>
-      <form onSubmit={handleSubmit}>
-        <input id='artist' value={userInput.artist} onChange={handleUserInput}>
-        </input>
-        <input id='title' value={userInput.title} onChange={handleUserInput}>
-        </input>
-        <button type='submit'>
-          Submit
-        </button>
-      </form>
+      <Button color='primary' onClick={handleClick}>{showPunchline ? 'Get Another Joke' : 'Get Punchline'}</Button>
     </div>
   );
 }
